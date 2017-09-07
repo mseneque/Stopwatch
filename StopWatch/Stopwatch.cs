@@ -2,49 +2,34 @@
 
 namespace StopWatch
 {
-    enum State { stopped, timing }
-
     public class Stopwatch
     {
+        public enum State { Stopped, Timing }
+
+        public State Status { get; private set; }
         private DateTime _startTime;
-
-        private State _state;
-
-        public String Status
-        {
-            get
-            {
-                return _state.ToString();
-            }
-        }
 
         public Stopwatch()
         {
-            _state = State.stopped;
+            Status = State.Stopped;
         }
-
 
         private TimeSpan _Start()
         {
             _startTime = DateTime.Now;
-            _state = State.timing;
+            Status = State.Timing;
             return _startTime - _startTime;
         }
 
         private TimeSpan _Stop()
         {
-            _state = State.stopped;
+            Status = State.Stopped;
             return DateTime.Now - _startTime;
         }
 
         public TimeSpan StartStop()
         {
-            if (_state == State.stopped)
-                return _Start();
-            return _Stop();
+            return Status == State.Stopped ? _Start() : _Stop();
         }
-
-
-
     }
 }
